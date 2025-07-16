@@ -10,20 +10,20 @@ class AlbumsService {
   }
 
   async addAlbum({ name, year }) {
-    const albumid = "album-" + nanoid(16);
+    const albumId = "album-" + nanoid(16);
 
     const query = {
-      text: 'INSERT INTO albums VALUES($1, $2, $3) RETURNING albumid',
-      values: [albumid, name, year],
+      text: 'INSERT INTO albums VALUES($1, $2, $3) RETURNING "albumId"',
+      values: [albumId, name, year],
     };
 
     const result = await this._pool.query(query);
 
-    if (!result.rows[0].albumid) {
+    if (!result.rows[0].albumId) {
       throw new InvariantError('Album gagal ditambahkan, mohon isi detailnya dengan benar');
     }
 
-    return result.rows[0].albumid;
+    return result.rows[0].albumId;
   }
 
   async getAlbums() {
@@ -31,11 +31,11 @@ class AlbumsService {
     return result.rows.map(mapDBalbumsModel);
   }
 
-  async getAlbumById(albumid) {
+  async getAlbumById(albumId) {
     // Data album
     const albumQuery = {
-      text: 'SELECT * FROM albums WHERE albumid = $1',
-      values: [albumid],
+      text: 'SELECT * FROM albums WHERE "albumId" = $1',
+      values: [albumId],
     };
 
     const albumResult = await this._pool.query(albumQuery);
@@ -48,8 +48,8 @@ class AlbumsService {
 
     // Data songs terkait album itu
     const songsQuery = {
-      text: 'SELECT * FROM songs WHERE albumid = $1',
-      values: [albumid],
+      text: 'SELECT * FROM songs WHERE "albumId" = $1',
+      values: [albumId],
     };
 
     const songsResult = await this._pool.query(songsQuery);
@@ -58,17 +58,17 @@ class AlbumsService {
     return {
       ...album,
       songs: songsResult.rows.map(song => ({
-        id: song.songid, // Sesuaikan dengan nama kolom database songid
+        id: song.songId, // Sesuaikan dengan nama kolom database songId
         title: song.title,
         performer: song.performer,
       })),
     };
   }
 
-  async editAlbumById(albumid, { name, year }) {
+  async editAlbumById(albumId, { name, year }) {
     const query = {
-      text: 'UPDATE albums SET name = $1, year = $2 WHERE albumid = $3 RETURNING albumid',
-      values: [name, year, albumid],
+      text: 'UPDATE albums SET name = $1, year = $2 WHERE "albumId" = $3 RETURNING "albumId"',
+      values: [name, year, albumId],
     };
 
     const result = await this._pool.query(query);
@@ -78,10 +78,10 @@ class AlbumsService {
     }
   }
 
-  async deleteAlbumById(albumid) {
+  async deleteAlbumById(albumId) {
     const query = {
-      text: 'DELETE FROM albums WHERE albumid = $1 RETURNING albumid',
-      values: [albumid],
+      text: 'DELETE FROM albums WHERE "albumId" = $1 RETURNING "albumId"',
+      values: [albumId],
     };
 
     const result = await this._pool.query(query);

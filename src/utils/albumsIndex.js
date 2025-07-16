@@ -1,9 +1,9 @@
 const mapDBalbumsModel = ({
-  albumid,
+  albumId,
   name,
   year,
 }) => ({
-  album_id: albumid,
+  albumId,
   name,
   year,
 });

@@ -1,19 +1,19 @@
 const mapDBsongsmodel = ({
-  songid,
+  songId,
   title,
   year,
   genre,
   performer,
   duration,
-  albumid,
+  albumId,
 }) => ({
-  song_id: songid,
+  songId,
   title,
   year,
   genre,
   performer,
   duration,
-  album_id: albumid,
+  albumId,
 });
 
 module.exports = { mapDBsongsmodel };

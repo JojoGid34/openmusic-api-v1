@@ -9,25 +9,25 @@ class SongsService {
     this._pool = new Pool();
   }
 
-  async addSong({ title, year, genre, performer, duration = null, albumid = null }) {
-    const songid = "song-" + nanoid(16);
+  async addSong({ title, year, genre, performer, duration = null, albumId = null }) {
+    const songId = "song-" + nanoid(16);
 
     const query = {
-      text: 'INSERT INTO songs VALUES($1, $2, $3, $4, $5, $6, $7) RETURNING songid',
-      values: [songid, title, year, genre, performer, duration, albumid],
+      text: 'INSERT INTO songs VALUES($1, $2, $3, $4, $5, $6, $7) RETURNING "songId"',
+      values: [songId, title, year, genre, performer, duration, albumId],
     };
 
     const result = await this._pool.query(query);
 
-    if (!result.rows[0].songid) {
+    if (!result.rows[0].songId) {
       throw new InvariantError('Song gagal ditambahkan, mohon isi detailnya dengan benar');
     }
 
-    return result.rows[0].songid;
+    return result.rows[0].songId;
   }
 
   async getSongs({ title, performer }) {
-    let query = 'SELECT songid, title, performer FROM songs'; // Hanya ambil kolom yang diminta
+    let query = 'SELECT "songId", title, performer FROM songs'; // Hanya ambil kolom yang diminta
     const values = [];
     const conditions = [];
     let paramIndex = 1; // Untuk melacak nomor parameter
@@ -53,10 +53,10 @@ class SongsService {
     
   }
 
-  async getSongById(songid) {
+  async getSongById(songId) {
     const query = {
-      text: 'SELECT * FROM songs WHERE songid = $1',
-      values: [songid],
+      text: 'SELECT * FROM songs WHERE "songId" = $1',
+      values: [songId],
     };
 
     const result = await this._pool.query(query);
@@ -68,10 +68,10 @@ class SongsService {
     return result.rows.map(mapDBsongsmodel)[0];
   }
 
-  async editSongById(songid, { title, year, genre, performer, duration = null, albumid = null }) {
+  async editSongById(songId, { title, year, genre, performer, duration = null, albumId = null }) {
     const query = {
-      text: 'UPDATE songs SET title = $1, year = $2, genre = $3, performer = $4, duration = $5, albumid = $6 WHERE songid = $7 RETURNING songid',
-      values: [title, year, genre, performer, duration, albumid, songid],
+      text: 'UPDATE songs SET title = $1, year = $2, genre = $3, performer = $4, duration = $5, "albumId" = $6 WHERE "songId" = $7 RETURNING "songId"',
+      values: [title, year, genre, performer, duration, albumId, songId],
     };
 
     const result = await this._pool.query(query);
@@ -81,10 +81,10 @@ class SongsService {
     }
   }
 
-  async deleteSongById(songid) {
+  async deleteSongById(songId) {
     const query = {
-      text: 'DELETE FROM songs WHERE songid = $1 RETURNING songid',
-      values: [songid],
+      text: 'DELETE FROM songs WHERE "songId" = $1 RETURNING "songId"',
+      values: [songId],
     };
 
     const result = await this._pool.query(query);

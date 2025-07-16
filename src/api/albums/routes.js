@@ -11,17 +11,17 @@ const routes = (handler) => [
   },
   {
     method: 'GET',
-    path: '/albums/{albumid}',
+    path: '/albums/{albumId}',
     handler: handler.getAlbumByIdHandler,
   },
   {
     method: 'PUT',
-    path: '/albums/{albumid}',
+    path: '/albums/{albumId}',
     handler: handler.putAlbumByIdHandler,
   },
   {
     method: 'DELETE',
-    path: '/albums/{albumid}',
+    path: '/albums/{albumId}',
     handler: handler.deleteAlbumByIdHandler,
   },
 ];
