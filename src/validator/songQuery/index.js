@@ -10,4 +10,4 @@ const SongsQueryValidated = {
   }
 }
 
-module.exports = { SongsQueryValidated };
+module.exports = SongsQueryValidated;

@@ -10,16 +10,16 @@ class AlbumsService {
   }
 
   async addAlbum({ name, year }) {
-    const album_id = "album-" + nanoid(16);
+    const albumid = "album-" + nanoid(16);
 
     const query = {
       text: 'INSERT INTO albums VALUES($1, $2, $3) RETURNING albumid',
-      values: [album_id, name, year],
+      values: [albumid, name, year],
     };
 
     const result = await this._pool.query(query);
 
-    if (!result.rows.length) {
+    if (!result.rows[0].albumid) {
       throw new InvariantError('Album gagal ditambahkan, mohon isi detailnya dengan benar');
     }
 
@@ -58,7 +58,7 @@ class AlbumsService {
     return {
       ...album,
       songs: songsResult.rows.map(song => ({
-        id: song.songid, // Sesuaikan dengan nama kolom database songId
+        id: song.songid, // Sesuaikan dengan nama kolom database songid
         title: song.title,
         performer: song.performer,
       })),

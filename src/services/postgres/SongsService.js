@@ -10,16 +10,16 @@ class SongsService {
   }
 
   async addSong({ title, year, genre, performer, duration = null, albumid = null }) {
-    const song_id = "song-" + nanoid(16);
+    const songid = "song-" + nanoid(16);
 
     const query = {
-      text: 'INSERT INTO songs(songid, title, year, genre, performer, duration, albumid) VALUES($1, $2, $3, $4, $5, $6, $7) RETURNING songid',
-      values: [song_id, title, year, genre, performer, duration, albumid],
+      text: 'INSERT INTO songs VALUES($1, $2, $3, $4, $5, $6, $7) RETURNING songid',
+      values: [songid, title, year, genre, performer, duration, albumid],
     };
 
     const result = await this._pool.query(query);
 
-    if (!result.rows.length) {
+    if (!result.rows[0].songid) {
       throw new InvariantError('Song gagal ditambahkan, mohon isi detailnya dengan benar');
     }
 
