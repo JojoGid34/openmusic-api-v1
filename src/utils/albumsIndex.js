@@ -3,7 +3,7 @@ const mapDBalbumsModel = ({
   name,
   year,
 }) => ({
-  albumId,
+  id: albumId,
   name,
   year,
 });

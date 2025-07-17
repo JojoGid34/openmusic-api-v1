@@ -7,7 +7,7 @@ const mapDBsongsmodel = ({
   duration,
   albumId,
 }) => ({
-  songId,
+  id: songId,
   title,
   year,
   genre,
